@@ -30,8 +30,8 @@ void CatmullRom::build() {
                 p1 = m_points[i + 1];
 				p2 = m_points[i + 2];
                 Eigen::Matrix4f matMF;
-                matMF <<    1.5f, -1.0f, 0.5f, 0.0f,
-                            -1.5f, 1.0f, -0.5f, 0.0f,
+                matMF <<    0.5f, -1.0f, 0.5f, 0.0f,
+                            -0.5f, 1.0f, -0.5f, 0.0f,
 					        -1.0f, 1.0f, 0.0f, 0.0f,
 					        1.0f, 0.0f, 0.0f, 0.0f;
 				addCurve(p0, p1, p2, Eigen::Vector3f::Zero(), matMF);
@@ -41,9 +41,9 @@ void CatmullRom::build() {
 				p1 = m_points[i];
 				p2 = m_points[i + 1];
 				Eigen::Matrix4f matML;
-				matML <<    0.5f, 1.0f, -0.5f, 0.0f,
-					        -1.0f, -2.0f, 1.0f, 0.0f,
-					        0.5f, 0.0f, 0.5f, 0.0f,
+				matML <<    -0.5f, 1.0f, -0.5f, 0.0f,
+					        1.0f, -2.0f, 1.0f, 0.0f,
+					        -0.5f, 0.0f, 0.5f, 0.0f,
 					        0.0f, 1.0f, 0.0f, 0.0f;
 				addCurve(p0, p1, p2, Eigen::Vector3f::Zero(), matML);
 			}
