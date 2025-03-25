@@ -87,6 +87,16 @@ std::pair<int, float> Spline::parameterizeUnitSpeed(float s)
     Hint: We store the arc-length of each curve in preLength (s0-s1-s2-...-sn)
           Therefore, you can search s is in which interval of perLength and interpolate u
     */
+	s = std::fmod(s, (float)m_curves.size());
+    s /= (float)m_curves.size();
+    s *= arcLength;
+	if (m_curves.size() == 0) return std::pair<int, float>(0, 0.0f);
+	for (int i = 0; i < preLength.size() - 1; i++) {
+		if (s >= preLength[i] && s <= preLength[i + 1]) {
+			float u = (s - preLength[i]) / (preLength[i + 1] - preLength[i]);
+			return std::pair<int, float>(i, u);
+		}
+	}
     return std::pair<int, float>(0, 0.0f);
 }
 

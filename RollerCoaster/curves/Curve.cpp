@@ -30,12 +30,24 @@ Eigen::Vector3f Curve::getTangent(float u) {
   return ret;
 }
 
+// Calculate the unit tangent prime vector at u
+Eigen::Vector3f Curve::getTangentPrime(float u) {
+	Eigen::Matrix<float, 1, 4> matU;
+	matU << 6.0f * u, 2.0f, 0.0f, 0.0f;
+	Eigen::Vector3f ret = (matU * mMP).transpose();
+	return ret;
+}
+
 /*
   TODO: Implement the function to compute the curvature.
 */
 float Curve::getCurvature(float u)
 {
-  return 0.0;
+	// Use the formula for curvature: k = |T'(u) x T''(u)| / |T'(u)|^3
+	Eigen::Vector3f Tprime = getTangentPrime(u);
+	Eigen::Vector3f T = getTangent(u);
+	float k = (Tprime.cross(T)).norm() / pow(T.norm(), 3);
+	return k;
 }
 
 // Calculate arc-length

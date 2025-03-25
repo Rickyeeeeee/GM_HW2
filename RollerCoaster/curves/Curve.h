@@ -20,6 +20,7 @@ public:
 
   Eigen::Vector3f getPosition(float u);
   Eigen::Vector3f getTangent(float u);
+  Eigen::Vector3f getTangentPrime(float u);
   float getCurvature(float u);
   void calculateFeatures(int segments = 100);
 
