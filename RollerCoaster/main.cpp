@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
 
     // render
     RollerCoaster::renderer->render();
-    RollerCoaster::controller->render();
+    RollerCoaster::controller->render(*RollerCoaster::renderer);
 
     // swap buffer & polling
     glfwSwapBuffers(window);

@@ -85,7 +85,7 @@ void Controller::handleMouseScroll(double xoffset, double yoffset) {
   }
 }
 
-void Controller::render() {
+void Controller::render(Renderer& renderer) {
   // Render GUI
   ImGui_ImplOpenGL3_NewFrame();
   ImGui_ImplGlfw_NewFrame();
@@ -125,6 +125,10 @@ void Controller::render() {
       if (ImGui::Checkbox("Show Curvature", &flag3)) {
           scene->setShowCurvatures(flag3);
       }
+	  static bool isRGB = false;
+	  if (ImGui::Checkbox("RGB", &isRGB)) {
+		  renderer.setRGB(isRGB);
+	  }
       ImGui::Separator();
   }
 

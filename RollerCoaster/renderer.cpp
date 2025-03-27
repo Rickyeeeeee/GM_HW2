@@ -22,7 +22,7 @@ Renderer::Renderer(int width, int height, Scene *scenePtr)
   axesHelper->initialize(axesShader, 1.0f);
 
   boxHelper = std::make_unique<BoxHelper>();
-  boxHelper->initialize(plyShader);
+  boxHelper->initialize(RGBplyShader);
 
   arrowHelper = std::make_unique<ArrowHelper>();
   arrowHelper->initialize(colorShader);
@@ -32,6 +32,7 @@ Renderer::~Renderer() {}
 
 void Renderer::setupShaders() {
   plyShader = new Shader("../shaders/plyShader.vs.glsl", "../shaders/plyShader.fs.glsl"); // Default
+  RGBplyShader = new Shader("../shaders/plyShader.vs.glsl", "../shaders/plyShaderRGB.fs.glsl"); 
   colorShader = new Shader("../shaders/colorShader.vs.glsl", "../shaders/colorShader.fs.glsl");
   axesShader = new Shader("../shaders/axesShader.vs.glsl", "../shaders/axesShader.fs.glsl");
 }
@@ -77,12 +78,22 @@ void Renderer::render() {
   }
   // Spline Pipe
   {
-    plyShader->use();
-    plyShader->setMat4("projection_matrix", projection);
-    plyShader->setMat4("view_matrix", view);
-    plyShader->setVec3("viewPos", camPos);
-    plyShader->setMat4("model_matrix", Eigen::Matrix4f::Identity());
-    scene->getModel()->getCurveRenderer()->draw();
+	  if (isRGB) {
+		  RGBplyShader->use();
+		  RGBplyShader->setMat4("projection_matrix", projection);
+		  RGBplyShader->setMat4("view_matrix", view);
+		  RGBplyShader->setVec3("viewPos", camPos);
+		  RGBplyShader->setMat4("model_matrix", Eigen::Matrix4f::Identity());
+		  scene->getModel()->getCurveRenderer()->draw();
+	  }
+	  else {
+		  plyShader->use();
+		  plyShader->setMat4("projection_matrix", projection);
+		  plyShader->setMat4("view_matrix", view);
+		  plyShader->setVec3("viewPos", camPos);
+		  plyShader->setMat4("model_matrix", Eigen::Matrix4f::Identity());
+		  scene->getModel()->getCurveRenderer()->draw();
+	  }
   }
   // Carts
   {

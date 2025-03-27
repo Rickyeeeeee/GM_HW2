@@ -7,6 +7,7 @@
 #include <ImGUI/imgui.h>
 #include <glad/glad.h>
 #include <string>
+#include "renderer.h"
 
 class Controller {
 public:
@@ -21,7 +22,7 @@ public:
   void resize(int width, int height);
 
   // Rendering Interface
-  void render();
+  void render(Renderer& renderer);
 
   // Input Handling Interface
   void handleMouseClick(int button, double xpos, double ypos, int action);

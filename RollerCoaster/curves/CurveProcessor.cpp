@@ -99,10 +99,22 @@ Eigen::Vector3f CurveProcessor::parallelTransport(Eigen::Vector3f &u0,
     2. Compute the rotation angle phi from t0 to t1
     3. Rotate u0 on the axis with phi
     */
-  Eigen::Vector3f up = Eigen::Vector3f(0.0f, 1.0f, 0.0f);
-  if (t1.dot(up) > 0.99f)
-    up = Eigen::Vector3f(1, 0, 0);
-  return t1.cross(up).normalized();
+    // Compute the axis of rotation (cross product of t0 and t1)
+    Eigen::Vector3f n = t0.cross(t1);
+
+    // Check if t0 and t1 are nearly parallel
+    if (n.norm() == 0.0f) {
+        return u0; // No rotation needed
+    }
+
+    // Compute the rotation angle
+    float phi = std::atan2(n.norm(), t0.dot(t1));
+
+    // Normalize the rotation axis
+    n.normalize();
+
+    // Apply Rodrigues' rotation formula
+    return u0 * std::cos(phi) + (n.cross(u0)) * std::sin(phi) + n * (n.dot(u0)) * (1 - std::cos(phi));
 }
 
 void CurveProcessor::saveSpline(Spline *spline) {

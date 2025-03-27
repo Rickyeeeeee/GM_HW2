@@ -14,6 +14,7 @@ public:
 
   void resize(int width, int height);
   void render();
+  void setRGB(bool isRGB) { this->isRGB = isRGB; }
 
 private:
   void setupShaders();
@@ -28,8 +29,10 @@ private:
 
   // Shader
   Shader *plyShader;
+  Shader* RGBplyShader;
   Shader *axesShader;
   Shader *colorShader;
+  bool isRGB = false;
 
   // Helpers
   std::unique_ptr<VertexHelper> vertexHelper;
